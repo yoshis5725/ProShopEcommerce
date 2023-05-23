@@ -8,7 +8,7 @@ class Product(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=150, null=True, blank=True)
     slug = models.SlugField(max_length=150, unique=True)
-    # image =
+    image = models.ImageField(upload_to='images', null=True, blank=True)
     brand = models.CharField(max_length=150, null=True, blank=True)
     category = models.CharField(max_length=150, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
