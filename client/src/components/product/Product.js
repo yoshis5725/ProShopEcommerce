@@ -4,10 +4,13 @@ import Rating from "../rating/Rating";
 
 
 function Product({product}) {
+    const url = 'http://localhost:8000'
+
+
     return (
         <Card className='my-3 p-3 rounded'>
             <Link to={`/products/${product._id}`}>
-                <Card.Img src={product.image}/>
+                <Card.Img src={url + product.image}/>
             </Link>
 
             <Card.Body>

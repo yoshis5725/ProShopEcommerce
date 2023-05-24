@@ -1,20 +1,29 @@
-import products from "../../data/products";
 import {useParams} from "react-router-dom";
 import {Button, Card, Col, Image, ListGroup, Row} from "react-bootstrap";
-import React from "react";
+import React, {useEffect} from "react";
 import Rating from "../../components/rating/Rating";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchSingleProduct} from "../../redux/actions/productActions";
 
 
 function ProductInfoPage() {
+    const url = 'http://localhost:8000'
     const {productId} = useParams()
-    const product = products.find(product => product._id === productId)
+    const dispatch = useDispatch()
+    const singleProduct = useSelector(state => state.singleProduct)
+    const {product, loading, error} = singleProduct
+
+
+    useEffect(() => {
+        dispatch(fetchSingleProduct(productId))
+    }, [dispatch, productId])
 
 
     return (
         <div>
             <Row>
                 <Col md={6}>
-                    <Image src={product.image} alt={product.name} fluid/>
+                    <Image src={url + product.image} alt={product.name} fluid/>
                 </Col>
 
                 <Col md={3}>
@@ -44,7 +53,7 @@ function ProductInfoPage() {
                                 <Row>
                                     <Col>Price:</Col>
                                     <Col>
-                                        <strong>{product.price}</strong>
+                                        <strong>${product.price}</strong>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
@@ -59,7 +68,8 @@ function ProductInfoPage() {
                             </ListGroup.Item>
 
                             <ListGroup.Item>
-                                <Button className='btn btn-info btn-block' disabled={product.countInStock === 0}>Add to cart</Button>
+                                <Button className='btn btn-info btn-block' disabled={product.countInStock === 0}>Add to
+                                    cart</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
